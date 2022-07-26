@@ -32,7 +32,19 @@ class AuthService {
       rethrow;
     }
   }
+
   //method for sign-in with email
+  Future loginEmail(String email, String password) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? newUser = result.user;
+      return _users(newUser);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 
   //method for registering with email
   Future registerEmail(String email, String password) async {
@@ -42,8 +54,7 @@ class AuthService {
       User? newUser = result.user;
       return _users(newUser);
     } catch (e) {
-      print(e);
-      return null;
+      rethrow;
     }
   }
 
