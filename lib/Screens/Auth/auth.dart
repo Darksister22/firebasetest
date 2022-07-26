@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
+import 'package:firebasetest/Screens/Auth/signin.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -12,6 +13,6 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
-    return const Text('login');
+    return SafeArea(child: SignIn());
   }
 }
