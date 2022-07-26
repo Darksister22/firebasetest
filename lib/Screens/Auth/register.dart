@@ -1,4 +1,5 @@
 import 'package:firebasetest/Services/fireauth.dart';
+import 'package:firebasetest/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -32,11 +33,11 @@ class _RegisterState extends State<Register> {
           )
         ],
         backgroundColor: Colors.pink[300],
-        title: Text('Register to Strawberries'),
+        title: const Text('Register to Strawberries'),
         elevation: 0.0,
       ),
       body: Container(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
           children: [
             Form(
@@ -44,6 +45,7 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: [
                   TextFormField(
+                    decoration: inputDecor.copyWith(labelText: 'Email'),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Enter an email';
@@ -53,10 +55,11 @@ class _RegisterState extends State<Register> {
                     controller: email,
                     onChanged: (val) {},
                   ),
-                  Divider(
+                  const Divider(
                     height: 20,
                   ),
                   TextFormField(
+                    decoration: inputDecor.copyWith(labelText: 'Password'),
                     controller: password,
                     validator: (val) {
                       if (val == null || val.isEmpty) {
@@ -69,7 +72,7 @@ class _RegisterState extends State<Register> {
                     obscureText: true,
                     onChanged: (val) {},
                   ),
-                  Divider(
+                  const Divider(
                     height: 20,
                   ),
                 ],
@@ -78,12 +81,12 @@ class _RegisterState extends State<Register> {
             ElevatedButton(
               style:
                   ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),
-              child: Text('Register'),
+              child: const Text('Register'),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  dynamic result =
-                      _auth.registerEmail(email.text, password.text);
-                  if (result == null) {
+                  dynamic result;
+                  result = _auth.registerEmail(email.text, password.text);
+                  if (result == 'rethrow') {
                     setState(() {
                       error = 'please enter a valid email!';
                     });
@@ -93,7 +96,7 @@ class _RegisterState extends State<Register> {
             ),
             Text(
               error,
-              style: TextStyle(color: Colors.red, fontSize: 20),
+              style: const TextStyle(color: Colors.red, fontSize: 20),
             ),
           ],
         ),

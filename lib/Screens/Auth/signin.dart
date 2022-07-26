@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:firebasetest/Services/fireauth.dart';
+import 'package:firebasetest/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -44,6 +45,7 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: [
                   TextFormField(
+                    decoration: inputDecor.copyWith(labelText: 'Email'),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Enter an email';
@@ -57,6 +59,7 @@ class _SignInState extends State<SignIn> {
                     height: 20,
                   ),
                   TextFormField(
+                    decoration: inputDecor.copyWith(labelText: 'Password'),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Enter a password';
@@ -97,7 +100,10 @@ class _SignInState extends State<SignIn> {
                       backgroundColor: Colors.pinkAccent),
                   child: Text('Log In'),
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      dynamic result =
+                          await _auth.loginEmail(email.text, password.text);
+                    }
                   },
                 ),
               ],
