@@ -108,6 +108,14 @@ class _SignInState extends State<SignIn> {
                 ),
               ],
             ),
+            TextButton(
+                onPressed: () async {
+                  await _auth.resetPassword(email: email.text);
+                },
+                child: Text(
+                  'forgot password?',
+                  style: TextStyle(color: Colors.pink),
+                ))
           ],
         ),
       ),
