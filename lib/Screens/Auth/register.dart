@@ -1,21 +1,21 @@
-// ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_constructors_in_immutables
-
 import 'package:firebasetest/Services/fireauth.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggle;
-  SignIn({Key? key, required this.toggle}) : super(key: key);
+  const Register({Key? key, required this.toggle}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +26,13 @@ class _SignInState extends State<SignIn> {
             onPressed: () async {
               widget.toggle();
             },
-            label: const Text('Register'),
+            label: const Text('Sign In'),
             style: TextButton.styleFrom(foregroundColor: Colors.white),
-            icon: const Icon(Icons.app_registration),
+            icon: const Icon(Icons.login),
           )
         ],
         backgroundColor: Colors.pink[300],
-        title: Text('Strawberries'),
+        title: Text('Register to Strawberries'),
         elevation: 0.0,
       ),
       body: Container(
@@ -57,13 +57,15 @@ class _SignInState extends State<SignIn> {
                     height: 20,
                   ),
                   TextFormField(
+                    controller: password,
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Enter a password';
+                      } else if (val.length < 6) {
+                        return 'Password must be longer than 6 characters';
                       }
                       return null;
                     },
-                    controller: password,
                     obscureText: true,
                     onChanged: (val) {},
                   ),
@@ -73,34 +75,25 @@ class _SignInState extends State<SignIn> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-                  child: Text('Sign In Anon'),
-                  onPressed: () async {
-                    dynamic result = await _auth.signInAnon();
-                    if (result == null) {
-                      (print('error'));
-                    } else {
-                      print('logged in');
-                      print(result.uid);
-                    }
-                  },
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent),
-                  child: Text('Log In'),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {}
-                  },
-                ),
-              ],
+            ElevatedButton(
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),
+              child: Text('Register'),
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  dynamic result =
+                      _auth.registerEmail(email.text, password.text);
+                  if (result == null) {
+                    setState(() {
+                      error = 'please enter a valid email!';
+                    });
+                  }
+                }
+              },
+            ),
+            Text(
+              error,
+              style: TextStyle(color: Colors.red, fontSize: 20),
             ),
           ],
         ),

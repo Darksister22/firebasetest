@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
+import 'package:firebasetest/Screens/Auth/register.dart';
 import 'package:firebasetest/Screens/Auth/signin.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,25 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
+  bool signedIn = true;
+  void toggle() {
+    setState(() {
+      signedIn = !signedIn;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: SignIn());
+    if (signedIn) {
+      return SafeArea(
+          child: SignIn(
+        toggle: toggle,
+      ));
+    } else {
+      return SafeArea(
+          child: Register(
+        toggle: toggle,
+      ));
+    }
   }
 }

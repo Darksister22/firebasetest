@@ -28,13 +28,24 @@ class AuthService {
       User user = result.user!;
       return _users(user);
     } catch (e) {
-      print(e.toString());
-      return null;
+      //  print(e.toString());
+      rethrow;
     }
   }
   //method for sign-in with email
 
   //method for registering with email
+  Future registerEmail(String email, String password) async {
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? newUser = result.user;
+      return _users(newUser);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   //method for sign-out
   Future logOut() async {
