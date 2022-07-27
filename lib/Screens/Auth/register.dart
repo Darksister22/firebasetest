@@ -86,9 +86,9 @@ class _RegisterState extends State<Register> {
                 if (_formKey.currentState!.validate()) {
                   dynamic result;
                   result = _auth.registerEmail(email.text, password.text);
-                  if (result == 'rethrow') {
+                  if (result != 'successful') {
                     setState(() {
-                      error = 'please enter a valid email!';
+                      error = 'Email or password are incorrect';
                     });
                   }
                 }

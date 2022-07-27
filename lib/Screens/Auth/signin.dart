@@ -17,6 +17,8 @@ class _SignInState extends State<SignIn> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,10 +105,23 @@ class _SignInState extends State<SignIn> {
                     if (_formKey.currentState!.validate()) {
                       dynamic result =
                           await _auth.loginEmail(email.text, password.text);
+                      if (result != 'successful') {
+                        setState(() {
+                          error = 'Email or password are incorrect';
+                        });
+                      }
                     }
                   },
                 ),
               ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              error,
+              style: const TextStyle(color: Colors.red, fontSize: 20),
+            ),
+            SizedBox(
+              height: 10,
             ),
             TextButton(
                 onPressed: () async {

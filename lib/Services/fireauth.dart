@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/Users.dart';
+import 'handler.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -35,15 +36,16 @@ class AuthService {
 
   //method for sign-in with email
   Future loginEmail(String email, String password) async {
+    var _status;
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? newUser = result.user;
-      return _users(newUser);
-    } catch (e) {
-      print(e);
-      rethrow;
+      _status = AuthStatus.successful;
+    } on FirebaseAuthException catch (e) {
+      _status = AuthExceptionHandler.handleAuthException(e);
     }
+    return _status;
   }
 
   //method for resestting password
