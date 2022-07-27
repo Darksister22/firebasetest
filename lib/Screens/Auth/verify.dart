@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebasetest/Services/fireauth.dart';
 import 'package:flutter/material.dart';
 
 import '../home/home.dart';
@@ -11,10 +15,48 @@ class EmailVerify extends StatefulWidget {
 
 class _EmailVerifyState extends State<EmailVerify> {
   bool isVerified = false;
+  final AuthService _auth = AuthService();
+  Timer? timer;
+
   @override
-  Widget build(BuildContext context) => isVerified
-      ? Home()
-      : Scaffold(
-          appBar: AppBar(title: Text('verify email first please')),
-        );
+  void initState() {
+    super.initState();
+
+    isVerified = FirebaseAuth
+        .instance.currentUser!.emailVerified; //get verification status.
+    if (!isVerified) {
+      _auth.sendVerificationEmail(); //will send a verification email.
+    }
+    //The tutorial is using a timer to check if the email is verified.
+
+    timer = Timer.periodic(const Duration(seconds: 3), (_) {
+      checkEmailVerified();
+    });
+    if (isVerified) {
+      timer?.cancel();
+    }
+  }
+
+  //checking if the email is verified
+  Future checkEmailVerified() async {
+    await FirebaseAuth.instance.currentUser!.reload();
+    setState(() {
+      isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    });
+  }
+
+//cancel the timer if it's unused for too long.
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      isVerified //check verification and return either the home page or a please verify page.
+          ? Home()
+          : Scaffold(
+              appBar: AppBar(title: const Text('verify email first please')),
+            );
 }

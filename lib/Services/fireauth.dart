@@ -36,11 +36,10 @@ class AuthService {
 
   //method for sign-in with email
   Future loginEmail(String email, String password) async {
-    var _status;
+    var _status = AuthStatus.unknown;
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User? newUser = result.user;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      print(_auth.currentUser!.emailVerified);
       _status = AuthStatus.successful;
     } on FirebaseAuthException catch (e) {
       _status = AuthExceptionHandler.handleAuthException(e);
@@ -63,6 +62,11 @@ class AuthService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  //method for sending verification email
+  Future sendVerificationEmail() async {
+    await _auth.currentUser!.sendEmailVerification();
   }
 
   //method for sign-out

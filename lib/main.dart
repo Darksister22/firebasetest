@@ -7,8 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  WidgetsFlutterBinding
+      .ensureInitialized(); //will not render widgets until app is initialized.
+  await Firebase.initializeApp(); //initialize Firebase application.
   runApp(const MyApp());
 }
 
