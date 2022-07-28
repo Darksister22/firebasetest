@@ -6,6 +6,7 @@ import 'Auth/auth.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);
+
   @override
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class Wrapper extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            return EmailVerify();
+            return const EmailVerify();
           } else {
             return Authenticate();
           }

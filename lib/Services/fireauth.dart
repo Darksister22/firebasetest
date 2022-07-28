@@ -1,13 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/Users.dart';
 import 'handler.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  final googlesignin = GoogleSignIn();
   //create anon user
   Users _users(User? user) {
     return Users(uid: user!.uid);
@@ -72,6 +73,7 @@ class AuthService {
   //method for sign-out
   Future logOut() async {
     try {
+      //await googlesignin.disconnect();
       return await _auth.signOut();
     } catch (e) {
       print(e.toString());

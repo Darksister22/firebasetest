@@ -2,6 +2,7 @@
 
 import 'package:firebasetest/Screens/wrapper.dart';
 import 'package:firebasetest/Services/fireauth.dart';
+import 'package:firebasetest/Services/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +20,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StreamProvider.value(
-      catchError: (_, __) => null,
-      initialData: null,
-      value: AuthService().user,
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: Wrapper()),
+    return ChangeNotifierProvider<GoogleSignInProvider>(
+      create: (_) => GoogleSignInProvider(),
+      builder: ((context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Wrapper(),
+        );
+      }),
     );
   }
 }

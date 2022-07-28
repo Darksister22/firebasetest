@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../home/home.dart';
 
 class EmailVerify extends StatefulWidget {
-  EmailVerify({Key? key}) : super(key: key);
+  const EmailVerify({Key? key}) : super(key: key);
 
   @override
   State<EmailVerify> createState() => _EmailVerifyState();
@@ -15,8 +15,16 @@ class EmailVerify extends StatefulWidget {
 
 class _EmailVerifyState extends State<EmailVerify> {
   bool isVerified = false;
-  final AuthService _auth = AuthService();
   Timer? timer;
+
+  final AuthService _auth = AuthService();
+
+//cancel the timer if it's unused for too long.
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -43,13 +51,6 @@ class _EmailVerifyState extends State<EmailVerify> {
     setState(() {
       isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
-  }
-
-//cancel the timer if it's unused for too long.
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   @override

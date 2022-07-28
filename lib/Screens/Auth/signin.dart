@@ -1,8 +1,11 @@
 // ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:firebasetest/Services/fireauth.dart';
+import 'package:firebasetest/Services/google_sign_in.dart';
 import 'package:firebasetest/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggle;
@@ -116,6 +119,17 @@ class _SignInState extends State<SignIn> {
               ],
             ),
             SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: () async {
+                final provider = Provider.of<GoogleSignInProvider>(context,
+                    listen: false); //creating an instance of the class here.
+                await provider.googleLogin();
+              },
+              label: Text('Sign-Up with Google'),
+              icon: FaIcon(FontAwesomeIcons.google),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: Colors.pink[700]),
+            ),
             Text(
               error,
               style: const TextStyle(color: Colors.red, fontSize: 20),
