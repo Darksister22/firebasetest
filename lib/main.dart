@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:firebasetest/Screens/wrapper.dart';
-import 'package:firebasetest/Services/fireauth.dart';
 import 'package:firebasetest/Services/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

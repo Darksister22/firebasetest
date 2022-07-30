@@ -14,8 +14,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser!;
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,6 @@ class _HomeState extends State<Home> {
                 final provider = Provider.of<GoogleSignInProvider>(context,
                     listen: false); //creating an instance of the class here.
                 await provider.googleLogout();
-                // await _auth.logOut();
               },
               label: const Text('Logout'),
               style: TextButton.styleFrom(foregroundColor: Colors.white),
@@ -50,14 +49,15 @@ class _HomeState extends State<Home> {
               ),
               CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(user.photoURL!),
+                backgroundImage: NetworkImage(user.photoURL ??
+                    'https://media.istockphoto.com/vectors/unknown-person-female-vector-id1345610707'),
               ),
               Text(
-                'Name: ' + user.displayName!,
+                'Name: ' + (user.displayName ?? ' لا يوجد'),
                 style: const TextStyle(fontSize: 20, color: Colors.white),
               ),
               Text(
-                'Email: ' + user.email!,
+                'Email: ' + (user.email ?? ' لا يوجد'),
                 style: const TextStyle(fontSize: 20, color: Colors.white),
               ),
             ],
