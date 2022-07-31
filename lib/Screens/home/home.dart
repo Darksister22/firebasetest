@@ -37,8 +37,10 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
-        body: Center(
+        drawer: Container(
+          color: Colors.pink,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 100,
@@ -62,6 +64,7 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-        ));
+        ),
+        body: Center());
   }
 }

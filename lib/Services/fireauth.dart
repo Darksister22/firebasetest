@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebasetest/Services/database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/Users.dart';
@@ -59,6 +60,10 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? newUser = result.user;
+      //create a new document.
+      await DataBaseService(uid: newUser!.uid)
+          .updateUserData('0', 'fatema', 100);
+
       return _users(newUser);
     } catch (e) {
       rethrow;
