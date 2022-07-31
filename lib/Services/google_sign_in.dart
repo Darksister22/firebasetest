@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebasetest/Services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -27,6 +28,8 @@ class GoogleSignInProvider extends ChangeNotifier {
     await _auth.signInWithCredential(
         credentials); //this will send the access and ID tokens to sign in with firebase.
     notifyListeners();
+    await DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .updateUserData('0', 'fatema', 100);
   }
 
   Future googleLogout() async {
