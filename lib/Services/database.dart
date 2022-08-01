@@ -33,4 +33,8 @@ class DataBaseService {
   Stream<List<StrawBerry>> get berries {
     return _database.snapshots().map(_berriesFromSnap);
   }
+
+  Stream<DocumentSnapshot> get userData {
+    return _database.doc(uid).snapshots();
+  }
 }

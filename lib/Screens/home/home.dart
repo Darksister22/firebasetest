@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasetest/Screens/home/berry_list.dart';
+import 'package:firebasetest/Screens/home/preferences_form.dart';
 import 'package:firebasetest/Services/database.dart';
 import 'package:firebasetest/Services/google_sign_in.dart';
 import 'package:firebasetest/models/strawmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -18,6 +20,18 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    void _showSettingPanel() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              color: const Color.fromARGB(223, 255, 237, 237),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: const PreferencesForm(),
+            );
+          });
+    }
+
     return StreamProvider<List<StrawBerry>?>.value(
       value: DataBaseService()
           .berries, //this provider is constantly listening to the changes in the collection.
@@ -37,7 +51,19 @@ class _HomeState extends State<Home> {
                 label: const Text('Logout'),
                 style: TextButton.styleFrom(foregroundColor: Colors.white),
                 icon: const Icon(Icons.logout),
-              )
+              ),
+              Container(
+                color: Colors.white,
+                width: 2,
+              ),
+              TextButton.icon(
+                  onPressed: () => _showSettingPanel(),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.userGear,
+                    size: 20,
+                  ),
+                  style: TextButton.styleFrom(foregroundColor: Colors.white),
+                  label: const Text('Preferences'))
             ],
           ),
           drawer: Container(
