@@ -94,7 +94,13 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          body: const BerryList()),
+          body: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/straw.png'),
+                    fit: BoxFit.cover),
+              ),
+              child: const BerryList())),
     );
   }
 }

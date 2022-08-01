@@ -16,6 +16,7 @@ class BerryTile extends StatelessWidget {
           leading: CircleAvatar(
             radius: 25,
             backgroundColor: Colors.red[berry.color],
+            backgroundImage: const AssetImage('assets/images/icon.png'),
           ),
           title: Text(berry.name),
           subtitle: Text('Will eat $num strawberry(ies)'),
