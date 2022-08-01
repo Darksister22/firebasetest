@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasetest/Services/database.dart';
 import 'package:firebasetest/models/userData.dart';
 import 'package:firebasetest/shared/constants.dart';
-import 'package:firebasetest/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class PreferencesForm extends StatefulWidget {
