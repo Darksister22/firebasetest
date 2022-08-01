@@ -29,7 +29,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
           //if (snapshot.hasData) {
 
           UserData? userData =
-              UserData(uid: '', color: 100, name: '', number: '0');
+              UserData(uid: '', color: 100, name: 'new user', number: '0');
 
           if (snapshot.hasData) {
             userData = snapshot.data;
