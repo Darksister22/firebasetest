@@ -7,6 +7,7 @@ class BerryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String num = berry.number;
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Card(
@@ -17,7 +18,7 @@ class BerryTile extends StatelessWidget {
             backgroundColor: Colors.red[berry.color],
           ),
           title: Text(berry.name),
-          subtitle: Text(berry.number),
+          subtitle: Text('Will eat $num strawberry(ies)'),
         ),
       ),
     );

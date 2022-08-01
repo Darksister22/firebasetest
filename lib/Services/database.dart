@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebasetest/models/strawmodel.dart';
+import 'package:firebasetest/models/userData.dart';
 
 class DataBaseService {
   final CollectionReference _database = FirebaseFirestore.instance.collection(
@@ -34,7 +35,17 @@ class DataBaseService {
     return _database.snapshots().map(_berriesFromSnap);
   }
 
-  Stream<DocumentSnapshot> get userData {
-    return _database.doc(uid).snapshots();
+  //get user data from snapshot
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+        uid: uid!,
+        color: snapshot.get('color'),
+        name: snapshot.get('name'),
+        number: snapshot.get('number'));
+  }
+
+  //map user data to model
+  Stream<UserData> get userData {
+    return _database.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
 }

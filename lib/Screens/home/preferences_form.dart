@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebasetest/Services/database.dart';
+import 'package:firebasetest/models/userData.dart';
 import 'package:firebasetest/shared/constants.dart';
+import 'package:firebasetest/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class PreferencesForm extends StatefulWidget {
@@ -18,66 +22,80 @@ class _PreferencesFormState extends State<PreferencesForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(children: [
-        const Text(
-          'Set/Update Your Preferences',
-          style: TextStyle(fontSize: 20),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          decoration: inputDecor,
-          controller: _curName,
-          validator: (val) => val!.isEmpty ? "please enter a name" : null,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        DropdownButtonFormField(
-          decoration: inputDecor,
-          isExpanded: true,
-          hint: const Text('Choose Number of Strawberries'),
-          onChanged: (newValue) {
-            setState(() {
-              _curNum = newValue.toString();
-            });
-          },
-          items: strawberries.map((berry) {
-            return DropdownMenuItem(
-              child: Text('$berry Strawberries'),
-              value: berry,
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    return StreamBuilder<UserData>(
+        stream: DataBaseService(uid: uid).userData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            UserData? userData = snapshot.data;
+            _curName.text = userData!.name;
+
+            return Form(
+              key: _formKey,
+              child: Column(children: [
+                const Text(
+                  'Set/Update Your Preferences',
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: inputDecor,
+                  controller: _curName,
+                  validator: (val) =>
+                      val!.isEmpty ? "please enter a name" : null,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownButtonFormField(
+                  decoration: inputDecor,
+                  isExpanded: true,
+                  value: userData.number,
+                  hint: const Text('Choose Number of Strawberries'),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _curNum = newValue.toString();
+                    });
+                  },
+                  items: strawberries.map((berry) {
+                    return DropdownMenuItem(
+                      child: Text('$berry Strawberries'),
+                      value: berry,
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Slider(
+                  min: 100,
+                  max: 900,
+                  value: (_curCol ?? userData.color.toDouble()).toDouble(),
+                  activeColor: Colors.red[_curCol ?? (userData.color)],
+                  inactiveColor: const Color.fromARGB(255, 194, 178, 183),
+                  divisions: 8,
+                  onChanged: ((value) {
+                    setState(() {
+                      _curCol = value.round();
+                    });
+                  }),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () async {},
+                  icon: const Icon(Icons.update),
+                  label: const Text('Update'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
+                )
+              ]),
             );
-          }).toList(),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Slider(
-          min: 100,
-          max: 900,
-          value: (_curCol ?? 100).toDouble(),
-          activeColor: Colors.red[_curCol ?? 100],
-          inactiveColor: const Color.fromARGB(255, 194, 178, 183),
-          divisions: 8,
-          onChanged: ((value) {
-            setState(() {
-              _curCol = value.round();
-            });
-          }),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        ElevatedButton.icon(
-          onPressed: () async {},
-          icon: const Icon(Icons.update),
-          label: const Text('Update'),
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-        )
-      ]),
-    );
+          } else {
+            return const Loading();
+          }
+        });
   }
 }
