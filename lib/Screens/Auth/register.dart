@@ -32,7 +32,8 @@ class _RegisterState extends State<Register> {
                     widget.toggle();
                   },
                   label: const Text('Sign In'),
-                  style: TextButton.styleFrom(foregroundColor: Colors.white),
+                  style: TextButton.styleFrom(
+                      textStyle: TextStyle(color: Colors.white)),
                   icon: const Icon(Icons.login),
                 )
               ],
@@ -84,8 +85,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pinkAccent),
+                    style: ElevatedButton.styleFrom(primary: Colors.pinkAccent),
                     child: const Text('Register'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {

@@ -49,7 +49,8 @@ class _HomeState extends State<Home> {
                   await provider.googleLogout();
                 },
                 label: const Text('Logout'),
-                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                style: TextButton.styleFrom(
+                    textStyle: TextStyle(color: Colors.white)),
                 icon: const Icon(Icons.logout),
               ),
               Container(
@@ -62,7 +63,8 @@ class _HomeState extends State<Home> {
                     FontAwesomeIcons.userGear,
                     size: 20,
                   ),
-                  style: TextButton.styleFrom(foregroundColor: Colors.white),
+                  style: TextButton.styleFrom(
+                      textStyle: TextStyle(color: Colors.white)),
                   label: const Text('Preferences'))
             ],
           ),

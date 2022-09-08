@@ -2,6 +2,7 @@
 
 import 'package:firebasetest/Screens/wrapper.dart';
 import 'package:firebasetest/Services/google_sign_in.dart';
+import 'package:firebasetest/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,11 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Wrapper(),
+          //initialRoute: '/',
+          // onGenerateRoute: RouteGen.generateRoute,
         );
       }),
     );
   }
 }
+//Navigator.of(context).pushNamed('/second',arguments:'gjgdkfgkdfjglj')

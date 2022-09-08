@@ -102,7 +102,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
                 },
                 icon: const Icon(Icons.update),
                 label: const Text('Update'),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
+                style: ElevatedButton.styleFrom(primary: Colors.pink),
               )
             ]),
           );

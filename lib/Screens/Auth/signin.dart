@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_constructors_in_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasetest/Services/fireauth.dart';
 import 'package:firebasetest/Services/google_sign_in.dart';
 import 'package:firebasetest/shared/constants.dart';
@@ -24,6 +25,11 @@ class _SignInState extends State<SignIn> {
   TextEditingController password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String error = '';
+  FirebaseAuth _phoneauth = FirebaseAuth.instance;
+  TextEditingController phone = TextEditingController();
+  TextEditingController otp = TextEditingController();
+  bool logged = false;
+  String verId = '';
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,8 @@ class _SignInState extends State<SignIn> {
                     widget.toggle();
                   },
                   label: const Text('Register'),
-                  style: TextButton.styleFrom(foregroundColor: Colors.white),
+                  style: TextButton.styleFrom(
+                      textStyle: TextStyle(color: Colors.white)),
                   icon: const Icon(Icons.app_registration),
                 )
               ],
@@ -91,8 +98,7 @@ class _SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink),
+                        style: ElevatedButton.styleFrom(primary: Colors.pink),
                         child: Text('Sign In Anon'),
                         onPressed: () async {
                           dynamic result = await _auth.signInAnon();
@@ -109,7 +115,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pinkAccent),
+                            primary: Colors.pinkAccent),
                         child: Text('Log In'),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -146,8 +152,7 @@ class _SignInState extends State<SignIn> {
                     },
                     label: Text('Sign-Up with Google'),
                     icon: FaIcon(FontAwesomeIcons.google),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink[700]),
+                    style: ElevatedButton.styleFrom(primary: Colors.pink[700]),
                   ),
                   Text(
                     error,
@@ -168,5 +173,68 @@ class _SignInState extends State<SignIn> {
               ),
             ),
           );
+
+    // return Column(children: [
+    //   TextField(
+    //     decoration: InputDecoration(
+    //       labelText: 'phone',
+    //     ),
+    //     controller: phone,
+    //     keyboardType: TextInputType.phone,
+    //   ),
+    //   SizedBox(
+    //     height: 10,
+    //   ),
+    //   Visibility(
+    //     visible: logged,
+    //     child: TextField(
+    //       decoration: InputDecoration(labelText: 'code'),
+    //       controller: otp,
+    //     ),
+    //   ),
+    //   SizedBox(
+    //     height: 10,
+    //   ),
+    //   ElevatedButton(
+    //       onPressed: () {
+    //         if (logged) {
+    //           verifyCode();
+    //         } else {
+    //           verify();
+    //         }
+    //       },
+    //       child: Text('login'))
+    // ]);
   }
+
+  // void verify() {
+  //   _phoneauth.verifyPhoneNumber(
+  //     phoneNumber: phone.text,
+  //     verificationCompleted: (PhoneAuthCredential credential) async {
+  //       //get the credentials, then sign in.
+  //       await _phoneauth
+  //           .signInWithCredential(credential)
+  //           .then((value) => print('logged in successfully.'));
+  //     },
+  //     verificationFailed: (FirebaseAuthException exception) {
+  //       print(exception.message);
+  //     },
+  //     codeSent: ((verificationId, forceResendingToken) {
+  //       //what will happen when the code is sent.
+  //       verId = verificationId;
+  //       setState(() {
+  //         logged = true;
+  //       });
+  //     }),
+  //     codeAutoRetrievalTimeout: ((verificationId) {}),
+  //   );
+  // }
+
+  // void verifyCode() async {
+  //   PhoneAuthCredential credential =
+  //       PhoneAuthProvider.credential(verificationId: verId, smsCode: otp.text);
+  //   await _phoneauth
+  //       .signInWithCredential(credential)
+  //       .then((value) => print('logged in'));
+  // }
 }
